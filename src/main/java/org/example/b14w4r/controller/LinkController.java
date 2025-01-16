@@ -22,10 +22,9 @@ public class LinkController {
     this.linkRepository = linkRepository;
   }
 
-
   // // Конструктор для внедрения зависимости
   // public LinkController(LinkRepository linkRepository) {
-  //   this.linkRepository = linkRepository;
+  // this.linkRepository = linkRepository;
   // }
 
   @PostMapping
@@ -48,13 +47,29 @@ public class LinkController {
     return ResponseEntity.ok(response);
   }
 
-// @RequestHeader("User-UUID")
+  // @Requestb144cbf0a10a
+  // 4a891864-df65-4e26-acca-cb7869587256
+  // ya.ru
+  // 4a891864-df65-4e26-acca-cb7869587256
+  // 2025-01-16T15:18:31.976+03:00 ERROR 25473 --- [b14w4r] [nio-8080-exec-3]
+  // o.a.c.c.C.[.[.[/].[dispatcherServlet] : Servlet.service() for servlet
+  // [dispatcherServlet] in context with path [] threw exception [Re
+  // quest processing failed: java.lang.IllegalArgumentException: Short URL not
+  // found or unauthorized] with root causeHeader("User-UUID")
   @GetMapping("/{shortUrl}")
-  public ResponseEntity<Void> redirectToLongUrl(@PathVariable String shortUrl, @PathVariable String userUUID) {
+  // public ResponseEntity<Void> redirectToLongUrl(@PathVariable String shortUrl,
+  //     @RequestHeader("User-UUID") String userUUID) {
+  public ResponseEntity<Map<String, String>> redirectToLongUrl(
+      @PathVariable String shortUrl, @RequestHeader("User-UUID") String userUUID) {
+    System.out.println(shortUrl);
+    System.out.println(userUUID);
     String longUrl = linkService.getLongUrl(shortUrl, userUUID);
-    return ResponseEntity.status(302)
-        .header("Location", longUrl)
-        .build();
+    Map<String, String> response = new HashMap<>();
+    response.put("longUrl", longUrl);
+    return ResponseEntity.ok(response);
+    // return ResponseEntity.status(302)
+    //     .header("Location", longUrl)
+    //     .build();
   }
 
   @GetMapping("/api/links/all")
