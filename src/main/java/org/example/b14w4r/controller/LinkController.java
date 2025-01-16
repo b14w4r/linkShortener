@@ -48,9 +48,9 @@ public class LinkController {
     return ResponseEntity.ok(response);
   }
 
+// @RequestHeader("User-UUID")
   @GetMapping("/{shortUrl}")
-  public ResponseEntity<Void> redirectToLongUrl(@PathVariable String shortUrl,
-      @RequestHeader("User-UUID") String userUUID) {
+  public ResponseEntity<Void> redirectToLongUrl(@PathVariable String shortUrl, @PathVariable String userUUID) {
     String longUrl = linkService.getLongUrl(shortUrl, userUUID);
     return ResponseEntity.status(302)
         .header("Location", longUrl)
